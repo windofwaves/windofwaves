@@ -4,13 +4,13 @@ UBUNTU & CENT OS covered!
 sudoedit ->edit with privileges!!!!
 
 uname -r  current kernel version
-REENISUALISING the hardware drivers -> 1. backup files 2. initrd -> vmlinuz 2. mkinitramfs -o /boot/initrd.img-$(uname -r)$(name -r) 3. resultatut /boot/initrd.img-5.8.0-24-generic
+REENISUALISING the hardware drivers -> 1. backup files 2. initrd -> vmlinuz 2. mkinitramfs -o /boot/initrd.img-$(uname -r)$(name -r) 3. result /boot/initrd.img-5.8.0-24-generic
 initrd i initramfs are the same files in different linox OS!
-sudo lsinitrd newimg.img | less  -> | less e пейджър който васи output в удобоен за разглеждане стил
+sudo lsinitrd newimg.img | less  -> | less e пейджър който вади output в удобоен за разглеждане вид
 
 BOOT commands
 
-1. pravim kopie na originalniq fail original.newer
+1. copy the original file original.newer
 2.grub2-mkconfig -o /boot/grub2/grub.cfg.newer
 3. edit the cfg.newer
 3. cp /boot/grub2.grub.cfg.newer /boot/grub2.grub.conf
