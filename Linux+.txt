@@ -1,0 +1,2310 @@
+UBUNTU & CENT OS covered!
+
+
+sudoedit ->edit with privileges!!!!
+
+uname -r  current kernel version
+REENISUALISING the hardware drivers -> 1. backup files 2. initrd -> vmlinuz 2. mkinitramfs -o /boot/initrd.img-$(uname -r)$(name -r) 3. resultatut /boot/initrd.img-5.8.0-24-generic
+initrd i initramfs are the same files in different linox OS!
+sudo lsinitrd newimg.img | less  -> | less e пейджър който васи output в удобоен за разглеждане стил
+
+BOOT commands
+
+1. pravim kopie na originalniq fail original.newer
+2.grub2-mkconfig -o /boot/grub2/grub.cfg.newer
+3. edit the cfg.newer
+3. cp /boot/grub2.grub.cfg.newer /boot/grub2.grub.conf
+
+KERNEL COMMANDS
+lsmod  - view loadedd modules in the kernel
+insmod -insert commands
+rmmod - removing commands -h help flag
+modinfo -display info about a specific module
+modprobe - replacing insmod rmmod 
+depmod - finding dependancies need for those modules 
+dmesg - read the kernel ring buffer
+
+KERNEL COMMANDS & FIlE LOCATIONS
+
+lsmod | less -> pagera e dobur!
+sudo modprobe dummy ->suzdava module
+sudo modprobe -r dummy -> iztriva module
+/usr/lib/modules pokazva kernel versions
+uname -r  current kernel version
+
+NETWORK CONFIGURATION
+cat /etc/hosts -> localhosts
+
+sudo hostname kali ->change the hostname temporary
+
+/etc/sysvonfig/networkscripts/ 
+/etc/dhcp/dhclient.conf
+
+/etc/netplan/ config failes for network configurations ubuntu*
+/etc/networkmanaged/system-connection/
+/etc/dhcp/
+
+NETWORK CONNECTION CONFIGURATION
+ip addr show  / ifconfig
+ip addr add 192.168.0.1 dev eth1
+ip link set eth0 up/down
+
+ip link show
+ethtool eth0 --autoneg off --netspeed ???
+iwconfig -- CONFIGURATING A WIRELESS SETTINGS ON LINUX SYSTEM!
+
+
+NAME RESOLUTION FILES
+
+/etc/hosts
+/etc/nsswitch.conf
+/etc/resolve.conf
+
+NAME RESOLUTION COMMANDS
+
+dig www.google.com  
+
+dig www.google.com google.com mx  /mail exchange search?  "ns" for name servers, 
+nslookup dns.google.com
+host www.google.com
+
+NETWORK CONNECTUIN MONITORING 
+
+/etc/networks
+
+netstat
+-a
+-i
+-u udp
+-m
+-r 
+-tuna tcp/udp
+
+ss
+showsockets
+-a w3ith ss all sockets
+
+NET CONNECTIONS MANAGEMENT TOOLS
+
+nmtui
+
+nmcli connection/device show
+
+
+NETWORK BRIDGING
+
+brctl  -show, showbr, del, addif <interface>
+
+NETWORK ROUTING
+
+routing - sending data from one point to another
+
+route            The flags shows U - host is up G- use gateway H- target is host
+route -n
+route -r
+ 
+route add<target>gw<ipaddress>    not persistant
+ip route add<target>via<gateway>dev<device>  not persistent
+GETWAY line in 
+
+/etc/sysconfig/network-scripts.ifcfg-<interface>
+
+/etc/netplan/<config>.yaml  ubuntu
+
+NETWORK BONDING
+
+connect 2 interface as one 
+JAMES BOND!
+
+Agregation - all interfaces are bond are combined to create a larger net pipe
+Active/Passive - one interface is up/active and the other is available /passive
+Load balancing - net trafic is shared between all interfaces 
+
+/etc/sysconfig/netwoek-scripts.ifconfig-<bondname>
+/etc/network/interfaces ubuntu
+
+NETWORK TUNING
+
+/etc/sysctl.conf - persistent kernel parameters to tune a linux system   !!!!! tuning/hardening net
+
+
+STARAGE MANAGEMENT
+
+EVERITHING IN LINUX IS A FILE!!
+
+PARTITIONING
+
+MBR (master boot record) 4 primary partitions
+
+A disk using MBR is limited to a max size of 2.2 TB due to 32bit limitation
+
+GUID partition table was created tto overcome BIOS limitations
+
+GTP uses 64 bit LBA addressing up to 8 zettabytes in size
+
+GTP closelt related with UEFI
+
+ls /dev/sd*  partitions
+
+sudo fdisk -l
+
+fdisk /dev/sda1
+
+gdisk -l
+gdisk /dev/sda2
+
+parted  **changes are written automatically**
+
+sudo parted /dev/sdb
+
+/proc/partitions
+
+BLOCK DEVICES
+
+smallest logical unit of addressing
+
+lsblk list blok devices
+
+lsblk -fs   shows and the filesystems
+
+blkid 
+ls -l /dev/disk/by-uuid/
+
+FILESYSTEMS TYPES
+
+/proc/partitions
+
+FHS filesystem hierarchy standards
+/ root flesystem
+/boot boot files
+/home user stuff
+/opt data for optional 3th party programs
+/dev a (virtual)psuedo filesystem that contains device files 
+/sys /virtual/ device & bus info
+/proc /virtual/ process information   
+
+virtual -> files lives in memory
+
+DISK SPACE COMMANDS
+DU -a  all infroamtion on the system 
+DF -h
+
+df -h показва всички директории и мястото заето от тях в системата!!!!!!!!!!!!!!!!!!
+df -a  all information on the sys including virtual drives and stuff
+
+PATH CONCEPTS
+
+absolute/relative path
+absolut -direct path to a file or command always start with /
+relative - 
+
+DEVICE MAPPER & LVM
+
+first disk /dev/sda
+LVM logical volume manager
+/dev/vg1/lv1 simbolic link of logical volume on two phisical devices
+device mapper takes care of the simbolic link 
+
+pvcreate /dev/sdfc  create a physical volume 
+vgcreate /dev/sdb /dev/sdc  creates volume group
+volume group vg1 created!
+lvcreate -n lv1 -L 1GB vg1  creates a logical volume
+ls -al /dev/vg1/lv1
+lvremove -removes logical volumes
+vgremove - removes the volume group 
+pvremove -removes phisical vol
+
+RAID and /dev/disk
+mdadm
+
+FILE SYSTEM CREATION
+ext3
+ext4
+xfs  extrents file system -> red hat faster but cannot shrinc
+
+lsbls    ->listing
+
+mkfs -t ext4 /dev/sdb1
+
+
+
+MOUNTING FILESYSTEM
+
+mount | grep sd  -> all mounted filesystem that has sd in their names
+mkdir /mnt/ext4 
+mount /dev/sdb1 /mnt/ext4
+
+umount /mnt/ext4
+
+PERSISTENT MOUNTS
+
+/etc/fstab
+/etc/crypttab   -for encripted drive
+
+EXTERNAL FILESYSTEMs
+
+NFS network filesystem
+showmount -e <nfs_system_mount>
+mount -t nfs nfstype:/files/mnt/mount
+SMB shares
+smbclient -L <server_name> -U<user_name>
+NTFS NT File system
+ 
+CLOUD AND VIRTUALIZATION
+
+VM templetes and Markup
+
+OVF open virtualization format
+XML -define enviorment requierments
+
+OVA open virtualization appliance
+bundle all OVFs into a single file 
+
+JSON Java script object notation
+YAML Yet another markup language
+
+Containers virtualize an aplication 
+Docker the container files container 
+
+Initialization TOOLS
+
+Cloud-init i initialize a cloud instance
+/etc/cloud/ cloud init allow to configure a virtual machine 
+it can be used to bootstrap virtual machine instances in the cloud or locally with 
+private aloud products like KVM or VMware
+Anaconda - installs linux dist red hat fedora cent os
+kickstart file - supplies anaconda 
+
+PACKETS TYPES
+RPM packages
+rpm -i <package>
+rpm -ivh <package>
+rpm -e uninstall package
+yum install <httpd>
+yum info <httpd> package  
+yum remove httpd
+yum search **
+dnf install
+dnf search 
+zypper 
+dpkg debian based
+apt-get deb
+aptitude deb
+
+apt-cache pkgnames -show alll pakages installed
+
+
+SOURCE CODE INSTALLATION
+tar -xzvf  for gzip compresssed files
+tar - xvf  for .tar files
+
+
+Libraryies
+ldconfig
+ldd
+
+
+SQUISITION COMMANDS
+wget downaload packages and files 
+curl -o <filename> <package url >
+
+USER & GROUP CREATION
+/etc/passowd
+/etc/login.defs
+useradd 
+/etc/login.defs
+ls -al /etc/skel
+sudo useradd -G <group> test
+sudo useradd test
+sudo userdell <user> dell usr
+groupadd -g 1337
+grep best /etc/
+ 
+
+sudo useradd -mG sudo test2
+id test 2
+usermod -aG best test2
+
+USER & GROUP DELETE
+
+useradd -r 
+groupdel 
+userdel -r user2 r dekletes and the home directory
+groupdel worst
+brep worst  ??? none
+
+USER & GROUP FIle LOCATIONS
+
+/etc/shadow - password are stored & aging
+/etc/passwd -outdated
+/etc/group
+ 
+PASSWORD MANAGEMENT
+
+cnage -M 90 test  - user test expiering after 90 days 
+
+Query COMMANDS
+
+id <username>display account information on any user
+
+whoami  -displays the name of the currently logged user
+
+who -displayes all currently logged users 
+
+w - displayes all currently logged users + the load 
+
+last  - display info about the last time an account logged into or out of a system
+
+last -2 last 2 logins
+last -f all 
+lastb last failed logins if you are undergoing a brute force attack!!!! 
+
+
+ENABLING QUOTAS
+
+lsblk all block devices 
+vim /etc/fstab
+after defaults add -> defaults,usrquota,grpquota
+mount -o remount /mnt/ext4
+mount | greb usrquota 
+quotacheck -avguc  a checks and mount all mountsys v verbose output u quotas for usergs g quotas for groups 
+
+USER & GROUP QUOTAS
+
+edquota -u <username> - create those quotas for user 
+edquota -g <groupname> - for group
+soft limit -limited by a grace period
+hard limnit - a hard stop 
+quota -u username displays 
+quota -g group displays
+repquota -a - report on all filesystems
+
+BASH PROFILES
+/etc/profile - global config file 
+
+/home/user/*bash.rc*
+su - rob becomes rob users cconfig in the bash file of rob 
+
+GLOBAL ENTRIES
+
+/etc/bashrc  sets specific user defaults  and aliases if configured
+/etc/skel  holds the defaullts files placed in the home dir
+/etc/profile global entry for all bash users
+/etc/profil.d files read buy /etc/profile to customize nash
+
+
+FILE & DIR MANAGEMENT
+
+touch -> creating aa file
+-a modify the access timestamp
+-m change the modified timestamp
+-d<date>  date timestamp
+
+touch test
+stat test
+nano test -> typing in nano  
+vi
+
+FILE READERS
+grep <string to search> <file to search>
+cat file1 file2  combines the two files together 
+less file -> / za da tursq i ;pi6a posle enter i mi vadi N za na4alo i nn za krai na dokumenta
+more
+tail
+
+REDIRECTION
+
+stdout standard output 
+> redirect to a file if it doesent exist it will create it OVERRITES
+>> adds to a file 
+
+tee
+cat /etc/passwd | grep raziel   samo raziel
+
+
+ADVANCED TEXT PROCESSING
+grep <option> string  file 
+grep -i /etc/passwd
+grep ro* /etc/passwd namira samo ro 
+
+FILE & DIR operations 
+
+ls
+mkdir 
+cp
+mv
+rm rm -r <dir> to remove directory
+rmdir  for empty dir
+diff shows difference between two files 
+
+TRANSFER COMMANDS
+scp copy files from one machine to another different OS
+rsync
+
+TRANSFER COMMANDS
+
+scp file you wanna copy:path  different pc's
+scp -r copy directory
+
+rsync -r /ubuntu/dir /centox/dir
+
+
+LOCATION COMMANDS
+
+find <dir> <option>
+find /home -name file1
+
+locate
+
+
+find /home -size +1M
+whereis locate
+locate
+which
+whereis -b locate binary /program/
+
+LINK COMMANDS
+
+hard link will have only one index
+softlink  points to another file with its own inode
+ln link command
+lc ubuntuffile ubintufile 2
+ln -s creates  asoft link
+unlink
+
+SERVERS MANAGEMENT
+
+systemd
+sysvinit
+the kernel phase loads systemd
+systemd deamon is linked to /sbin/init
+systemd then launches other processes known as childs
+
+SYSTEMD COMMANDS
+
+systemctl !!!!!!!!!!!
+
+systemctl enable ssh
+*disable 
+*start
+sudo systemctl daemon-reload 
+
+
+SYSTEMD-ANALIZE
+
+systend-abakyze time
+systemd-analyze critical-chain 
+systemd-analyze blame   
+
+showing the time for the startup processes & more
+
+SYSTEMD UNIT FILES
+
+systemd uses unit files 
+12 types of unit files in Linux + everithing is a FILE
+
+1.automount * process access a resource it automount then unmount
+2.device
+3.mount
+4. scope 
+6. sertvice
+7. slice
+8. snapshot
+9. socket
+10. swap
+11. target
+12. timer
+
+/usr/lib/systemd/system  installed with LINUX OS
+/run/systemd/system     created at runtime
+/etc/systemd/system      custom or modified files created by a sysadmin
+
+SYSTEMD TARGETS
+
+systemctl get-default -> graphical target
+
+SYSVINIT
+
+/etc/init.d/sshd stop/start/status/restart
+
+service sshd start/*/*
+
+
+SYSVINIT chkconfig
+checking services runlevels 
+
+
+SysVinit runlevels
+
+runlevel 0 shuts down the system
+runleve 1 rescue shell
+runlevel 2 non graphical enviorment
+runlevel 3 non graphical with networking
+runlevel 4  unused
+runlevel 5 graphical multiuser
+runlevel 6 reboots the system
+
+NTP Server network time protocol
+
+port 123
+communica
+
+stratum value - ntp accuracy 
+the lower the num the more accurate
+
+
+ SSH Server 
+port 22
+
+systemctl enable ssh
+apt get install ssh-server
+hostname
+
+WEB SERVERS
+80 http
+443 https
+apache
+nginX
+
+install httpd
+/etc/httpd/conf/httpd.conf
+systemctl start httpd
+
+isntall apache2
+/etc/apache2
+systemctl status apache2
+ 
+NGINX Web Server 
+
+install nginx
+
+/etc/nginx
+
+systemctl start nginx
+
+
+DNS 
+port 53
+bind
+
+DHCP
+
+discovery request 67
+ip offer 68
+/etc/dhcp/dhcpd.conf
+
+NFS
+port 2049
+older versions port 111
+
+Samba 
+
+port 137 138 139
+port 445
+
+sharing files with windows pc
+
+NFS SERVER INSTALLATION
+
+SAMBA
+systemctl status {smbd,nmbd}
+
+AUthentication Services
+NIS in detail
+
+NIS ports 111,714,711
+
+Kerberos
+
+encripted authentication
+port - 88
+
+LDAP 
+
+ports 389, 636 for tls secure LDAP/LDAPS
+
+RADIUS remote auth dial in user service
+
+ports 1645, 1646, 1812,1813, 7082
+
+PROXY SERVER
+stands between a client and a destination server
+
+Squid & NGINX web server which can also act as a filter and cathing web traffic
+
+Squid 
+
+apt-get install squid
+
+systemctl enable --now squid
+/etc/squid/squid.conf
+
+forwarder_for off  #hides out ip address !!!!
+
+firewall-cmd --add-service=squid --permanen
+
+ufd allow 3128/tcp && ufw enable  -> for ubuntu with ufd firewall
+
+
+LOG SERVER
+
+records details about the systemand application 
+
+remote login port -514 tcp/udp
+
+journald service ALSO stores log files in /var/log however the data is stored in binary
+
+/var/log
+
+Container Server
+
+provides a reproductible enviorment 
+
+containers run on top of linux's kernel
+
+VPN Server
+
+creates a secure point to point tunnel
+
+OpenVPN port 1194
+
+
+Monitorin servers
+
+top
+free
+dee -h
+ps aux | less
+
+
+SQL 
+port 5432
+NOSQL
+port 27017
+
+MAIL
+SMTP
+port =25
+
+
+CLUSTERING
+storage device busses
+
+lsblk  list block devices
+
+-p shows the path
+
+
+JOB SCHEDULING & AUTOMATION
+
+cron
+contab
+at
+job control
+kill
+
+THE CRONE DEAMON
+
+cron handles job scheduling in linux 
+
+crond starts with the system
+cron vs anacron
+
+/etc/crontab the job definition
+crontab -e   edit
+
+AT command
+at runs a command/script at a timespecified
+
+Job onstrol
+
+ampersand &  send a process to the background 
+fg foreground bringing a process back 
+
+ctrl+z signal stop ->doesent terminate just pausing 
+bg -> background process
+fg 
+
+
+KILL command
+
+kill <pid>
+pkill process kill
+firefox
+ps aux | grep firefox
+
+LINUX DEVISES
+
+NEtwork devices
+
+wifi
+iwconfig  list all available interfaces
+iwlist <interface> scan to find available networks
+iwconfig inf commit 
+
+bluetooth
+bluez package
+bluetoothctl list
+bluetoothctl scan
+bluetoothctl pair
+
+I/O devices
+
+utility computing devices ->raspberry pi 
+
+HBA host bus addaper
+GPIO
+
+Output devices
+
+audio output!!
+
+
+Xwindows system 
+interacts with the video card/monitor
+provides standard interface
+
+
+DEVICE BUSSES
+
+BUS transfer data between devices
+
+VIEWING INFORMATION ABOUT SYSTEM HARDWARE
+
+lsdev -list the hardware infromation from /proc/ioports /proc/interrupts /proc/dma
+lsdev all device information in one place!!!
+
+apt install procinfo
+sudo lsdev 
+lshw
+
+
+procfs
+
+/proc doesent pfysical exists
+exposes kernal infrmation about hardware settings and status 
+
+/proc/interrupts
+/proc/ioports
+/proc/dma
+
+/proc/cpuinfo detailed info cpu
+
+sysfs filesystem
+
+/sys
+virtual directory provides user space with properties
+/sys/blok
+bus     !!!
+devices
+fs
+kernel
+ 
+
+
+UDEV & udevrules
+
+udev user space def access the device managers for linux kernel !!
+
+/etc/rc5.d/udev
+/etc/dev/rules.d
+
+udevadm utility can manage gather device information appy rule changes
+udevadm -q 
+adevadm monitor - real time monitor
+udevadm trigger
+audevadm reload
+
+
+LSB
+lsusb list the usb devices
+
+
+Diasplay Servers 
+
+X11 & Wayland
+
+/etc/X11/xorg.cong
+/etc/X11/xorg.conf.d
+
+Wayland is a more lightweight than X11
+default fedora display server
+
+
+LINUX REMOTE DESKTOP OPTIONS
+
+SSH
+sometimes we need a gui 
+
+4 remoete desktop options
+
+-VNC tcp 5900+N multi user enviorment 5901 first user 5902 second e.t.c
+
+-NX  port 22  good for slower connections pretty good -> cross platform -> faster than vnc
+ 
+-XRDP   rcp 3389 bridges with RDP for client 
+
+-Spice  speeds siminal to a local connection low cpu trafic encripted
+
+COnsole Redirection 
+
+port forwarding 
+
+SSH port forwarding connecting a secure connection (tunnel)
+
+it is done with -L
+ssh -L 1337:someplace.com:80 localhost
+
+remote port forwarding
+
+again ssh tunnel
+
+ssh -R remote port:localhost:2049 user@remoteSSH
+
+
+X11 forwarding allows you to use a remote GUI component without having to connect using a remote desktop
+ss -X  !!!!
+
+VNC forwarding works same way local port forwarding we just use VNC ports
+
+ssh -L 5901:localhost:5903 user@remote-server
+
+
+PERMISSIONS USER TYPES and PRIVILEGE ESCALATION
+
+read R write W and Execute X permissions
+
+Usr Grp Other
+rw  wr    r--
+
+
+
+Octal Notation 
+
+Read 4
+Write 2
+Execute 1
+
+Permission Bits
+
+SUID ID shows as s S
+
+-rws r -xr -x 1 root toot /usr/bin/mount 
+
+SGID
+
+sticky bit 
+only the user that created the file can delete the files 
+find/-perm/1000
+
+PERMISSION UTILITIES
+
+chmod
+support octal and symbolic notation
++ add premision
+- remove permission
+= set permission
+
+chown change ownership of the dir/file
+
+chown user file.txt
+chown group file.txt
+
+to change both user and group owner 
+chown user:file.txt
+
+chgrp change group dir
+
+/etc/profile changes permissions permanently 
+
+the other options change permissions for the session
+
+ACL access control list
+
+with acl you can specify a list of users and groups 
+
+how to sopt - they have a "." after the permissions
+
+-rw-w-r-r .
+
+getfacl <object> to see ACL
+
+setfacl -b aclfile  returns back to the default asl
+
+SETTING LIMITS with ulimit
+
+each user consumes resources like CPU & memory
+
+ulimit -a see the limits on the surrent user accout
+ulimit 0f limit on the size of files
+ulimit -l sets the maximum memory available 
+
+ulimit -t  max CPU time 
+
+~/barrc ot ./profile
+
+global configuration file /etc/bashrc or /etc/profile
+
+
+SELInux security enchanced linux 
+
+MAC mandatory access control
+
+object types
+users
+files
+dir
+network ports
+memory
+processes
+
+SElinux modes getenforce
+
+ls -Z
+ps -Z
+id -Z
+netstat -Z
+
+chcon 
+
+
+APPARMOR - security for debian based distros
+
+comes with profiles
+
+/etc/apparmor.d
+/etc/apparmor.d/tunables
+aa-status
+aa-enforce
+aa-disable
+aa-complain
+aa-unconfined
+
+
+restorecon restore to the original settings
+getesebool
+setseboot
+
+
+USER TYPES
+
+root
+service
+standart
+
+/etc/passwd
+
+root user always have a user ID 0
+
+Service ID's below 1000
+
+STtandatd have ID above 1000
+and have a shell
+
+Privilege Escalation
+
+su  common user can run commands as another user
+sudo  doesent requier user to know root password
+sudoedit command allows a standard user to edint a file as root
+
+sudo group -> privilage escalation group  for debian based linux systems
+
+users have to be added to the group to use the sudo 
+
+/etc/sudo
+
+
+PAM and configuration FIles Pluggable authentification modules 
+
+/etc/pam.d
+
+pam configuration file 
+account 
+auth
+password 
+session 
+
+/etc/pam.d/sshd
+/sbin/pam_tally2
+
+pam_faillock.so
+/etc/pam.d/system-auth
+/etc/pam.d/password-auth
+
+
+SSH OVERVIEW
+
+ssh as a client
+
+openssh
+openssh-clients
+openssh-server
+
+~/.ssh/config
+
+port forwarding
+x11 FORWARDING
+ssh KEEP ALIVE VALUES
+
+SERVERALIVEINTERVAL 600 =10MIN KEEPS ALIVE THE CONNECTION
+
+/ETC/SSH/SSH_CONFIG CLIENT CONFIG SETTINGS
+/ETC/SSH/SSHD_CONFIG server or OpenSSH config
+
+
+ssh-keygen generates the private and public keys 
+
+~/.ssd/id_rsa - private
+~/.ssh/id_rsa.pub - public key
+
+ssh-copy-id user@remote-host
+to copy our key to the remote server
+
+ssh-add
+ssh-agent
+
+
+passwordless login can be made with ssh keys 
+
+TCP Wrappers
+
+control access to network enabled services such as ssh and nfs
+
+which<deamnon>
+ldd<full-path>   list all shared library 
+
+access to tcp wrappers
+/etc/host.allow
+/etc/hosts.deny
+
+access is allowed if the ip is not found in both files !!!!
+
+do hosts.deny -> ALL:ALL
+
+TTY & PTY Terminals
+
+tty - sybsystem for terminal access
+
+in modern linux a tty is a device file 
+
+/dev/tty
+
+pty terminal (pseudo-tty)
+
+/dev/pts/
+
+
+
+
+/etc/securetty limits root logins to only the devices in the file
+
+PKI public key infrastructure
+
+CA CERTIFICATE AUTHORITY
+
+
+HASHING
+it way of verifying the integrity od a file or a message
+
+hashing is useful because you can use it to compare date
+
+
+VPN as a client
+
+IPsec is a Layer3 Network framework
+
+
+SSL secure socketts layer
+
+TLS Transport Layer Security
+
+DTLS Datagram Transport Layer Security 
+
+
+TROUBLESHOOTING SYSTEM PROBLEMS
+
+Network Concepts
+
+issues
+Saturation occurs when throughput reaches the max value /bandwith/ causing the network to be slow 
+
+latency is the time between sending a packet and the destination recieving it high latency is slow and low latency is fast
+
+packetdrops 
+timeout 
+
+
+/etc/sysconfig/ntework-scripts
+/etc/netplan
+important config items 
+
+gateway
+netmask
+ipddr
+
+
+nmcli - command line tool used to configure network manager
+
+ip addr show
+arp
+
+
+NETSTAT & SS
+
+netstat -a all port on the system
+netstat -u udp
+netstat -t tcp
+netstat -l listening
+netstat -i
+netstat -r routing information
+
+ss - soclet statistics
+
+ss -a  all ports
+ss -au all udp ports
+ss -at all tcp
+ss -s statistics
+
+latency troubleshooting
+
+latency is the time between sending a packet and the destination recieving it 
+
+RDMA remote direct memory access
+
+
+mtr and traceroute commands display travel times and packet loss 
+png 
+netcat (nc)
+
+
+
+mtr
+mtr -o
+tracepath www.google.com
+
+
+Network Performance commands
+
+iftop  display continuous graph of the network bandwith for an adapter
+
+ip link show
+
+which  locating is a tool is installed and path
+
+iperf
+
+Name Resolution commands
+
+dig www.google.com -a   / also -mx mail exchanger -ns name server AAAA is ip v6 record A ipv v4
+
+nslookup dns.google.com 
+host google.com
+
+
+NETWORK SECURITY COMMANDS
+
+sudo ipset create BADIPs hash:net
+sudo ipset delete 10.10.10.1/24
+
+whois 
+
+
+
+NETWORK MAPPING & PROTOCOL ANALYZERS
+
+nmap
+tcpdump
+wireshark
+
+sudo tcpdumb -c 10 c is only 10 packet insted of continuous 
+
+tcpdump -t tcp
+
+tcpdump -i eth0 port 80 
+tcpdump -i eth0 >> /home/ste/desktop/capture.txt
+
+nmap - port scanning tool 
+
+ping ubuntu 
+
+nmap 192.168.1.245
+
+
+DIsk SPace Monitoring
+
+df -h  h with human readable option in Mb/ t - type 
+du -sh /   summarize whats going on on the root system
+
+
+disk latency troubleshooting 
+
+measure the delay in data transfer
+
+ioping .  proceed with caution!!! this tool also deletes data
+
+ioping . -c 100  count 100 tests of the performance of the disk
+
+
+iostat
+-d
+-dh
+
+tps transactions per sec
+total kb read and total kb written
+
+good for comparison
+
+I/O Scheduling 
+
+deadline  standaard scheduler processes disk I/O requests in batches
+
+cfq
+
+noop
+
+
+Storage repair
+
+fsck
+
+
+CPU monitoring 
+
+
+/proc/cpuinfo
+
+uptime  load averages
+
+CPU Troubleshooting
+
+sar
+stl
+iostat -c 2 5
+sysctl tune kernel processes
+
+Memory Monitoring
+
+Memory swapping 
+
+swapon -s
+
+swapoff /dev/partition
+swapoon /dev/partition
+
+
+memory monitoring 
+
+free
+
+vmstat
+
+RECOVERING LOST ROOT PASSWORD
+
+PROCESS MANAGEMENT
+
+Process Monitornig
+
+Linux assigns each process a ID (PID) 
+
+top - display processes load averages
+
+top - device manager
+
+htop - with colors and a little more extras
+
+time -overal time for a commands to execute 
+
+Process states
+
+the running R
+zombie - the process is ended but some child processes are stuck
+
+Process Management Commands
+ps -process command
+process id 
+lsof -ls - list of - open files 
+
+pgrep
+
+Process Termination COmmands
+
+kill
+killall
+pkill apache2
+
+Process Priority
+
+0 default process oriority
++19 lowest priority 
+-20 highest priority
+
+nice default priority gives 10
+renice 1-19
+nice -1- (-20)
+
+
+TROUBLESHOOTIN USER ISSUES
+
+FIle & DIR permission Issues 
+
+chown change ownership 
+ls -al
+ls -ld
+chmod change file or dir permissions
+
+
+Local Access Issues
+
+grep testuser /etc/password
+
+sudo grep testuser /etc/shadow
+
+systemctl get-default 
+
+REMOTE ACCESS ISSUES
+firewall-cmd --list-all
+
+Authentication Troubleshooting
+
+PAM configuration files need to be modified to allow the external authentication 
+
+/etc/pam.d/
+
+Files Creation Troubleshooting
+
+to check quota issues we can check the /etc/fstab
+
+quota -u<usernam>
+df -i will display the same thing but for inodes
+
+ls 
+chattr +i <file? sets immutable attribute
+chattr -i removes immutable attribute 
+
+ENviornment and shell issues
+
+usermod--shell<shell><user>
+~/.profile 
+~/.bash_login
+~/.bashrc
+set
+env
+printenv
+
+
+BOOT SECURITY
+
+security boot is considered physical security  
+
+sudo grub2-setpassword
+
+
+
+Multifactor Authentication
+
+MFA multi facttor auth 2FA 2 factor auth
+
+something you know 
+something you have
+something you are
+
+
+Remote auth options
+
+Radius  remote auth dial up user service
+
+port 1812 
+port 1813
+
+TACACS+
+port 49
+
+LDAP & OPENLDAP
+
+Lightweight directory access protocol  LDAP
+
+implementation od X.500 standard
+
+port 636 secure
+port 389 unsecure
+
+KERBEROS SECURITY
+
+
+
+DISABLING ROOT LOGIN VIA SSH
+
+sudoedit /etc/ssh/ssdh_config
+
+PERMITRootlogin
+
+sudoedit
+/ for search
+i for insert 
+:wq
+
+sudo systemctl restart sshd
+
+PKI enforcing passwordless login
+
+
+sudoedit /etc/ssh/sshd_config
+
+PASSWORDAUTHENTICATION = NO
+PUBKEYAUTHENTICATION =YES
+systemctl restart
+
+from client side
+ssh-keygen -t rsa -b 4096 -C "pwless@somedomain.com"
+
+ssh-copy-id pwless@ubuntu
+cat /home/pwless/.ssh/id
+copy -> go to the server 
+
+cd .ssh/ 
+vim authoruzed_keys
+
+
+CHROOT KAIL SERVICES
+chroot<new_root_dir><service>
+
+Denying Hosts ACCESS
+
+/etc/hosts.deny creates a deny list
+looks in and sets the firewall
+/var/log/auth/log ssh
+/var/log/vsftpd.log ftp
+
+
+CHANGING DEFAULT PORTS
+
+well known ports --1023
+register ports 1024-49151
+
+sudoedit /etc/ssh/ssd_conf
+
+port-22 -> 29152
+:wq
+
+
+cystemctl restart ssd
+
+ssh ubuntu -p 49152
+
+
+Disable non used services
+ftp no encription!
+port 21/22
+
+FTP has been replaces SFTP FTPS
+port 22 - recommended
+
+netstat -tune|grep":21"
+
+telnet
+
+systemctl list-units --type=service|grep telnet
+systemctl list-units --type=service|grep ftp
+MAIL
+systemctl list-units --type=service|grep sendmail
+systemctl list-units --type=service|grep postfix
+
+
+SSL/TLS
+LDAP - LDAPS
+SSL - TLS VPN
+FTP - FTPS
+all can use encription 
+
+ENABLING AUDITD
+
+audiotd can be configured to monitor and log system events 
+file access
+system calls
+network access
+network connection attempts
+
+/etc/audit/audit.rules 
+
+CVE MONITORING 
+
+
+cvemitre.org  !!!
+
+search by year 2021
+
+nvd.nist.gov   !!!
+
+
+RESTRICTING USB DEVICES
+
+modprobe finds modules that support a usb
+
+/etc/modprobe.d
+
+
+DISK ENCRIPTION!!
+
+LUKS linux unified key setup uses kernel module called dm-crypt 
+ 
+cryptmount creates the virtual mapped drive
+
+dm-crypt
+cryptsetup
+
+RESTRICTING cron ACCESS
+
+cron and at can schedule jobs
+
+/etc/cron.allow same for at
+/etc/cron.deny  - same for at
+
+DISABLE CTR+ALT+DEL
+
+in linux it reboots the entire system
+
+/etc/init/control-alt-delete.conf
+
+remove 
+
+exec /sbin/shutdown -r now "|control+alt+del pressed"
+
+change to 
+
+exec /usr/bin/logger -p authpric.notice -t init "control+alt+del was pressed and ignored"
+
+Adding Banner and MOTD
+
+/etc/login.warn 
+/etc/issue
+/etc/motd
+
+
+KEY LOG FILE LOCATIONS
+
+/var/log
+
+sudo grep --color -i "Warning" /var/log/messeges
+tail -f /var/log/secure  watch in real time    !!! good for cheking if someone is trying to log in to the system
+
+syslog facilities 
+
+kern  0 generated by kernel
+user facility 1 
+
+
+8 severity logs 
+
+emerg 0
+alert 1 
+crit 2
+err 3
+warning 4
+notice 5
+info 6
+debug 7
+
+Log rotation 
+
+
+logs shouild have a different partition for a busy linux system
+
+/etc/logrotate.conf
+
+
+logging with journald
+systemd-journald
+
+logs everithing toa a binary file 
+
+/etc/systemd/journald.conf
+
+journalctl -b sisplay boor msgs
+-k kernel msgs
+-u systemd units 
+-g grep flags
+
+THIRD PARTY AGENTS 
+
+Splunk monitoring and loggingn aggregation has been around for alot of time 
+
+ElasticStack used to collect correlate and visualise data
+
+AlienVault  Security INformation and Event Management (SIEM) tool
+
+Datadog - a monitoring platform for cloud applications focusing on observability 
+
+
+IMELEMENTING & CONFIGURING FIREWALLS
+
+ACCEPT 
+REJECT
+DROP
+LOG
+
+NETFILTEER
+
+IPTABLES
+
+PREROUTING
+INPUT
+FORWARD
+POSTROUTING
+OUTPUT
+
+iptables -t <table><command><chain><options>
+iptables _L lists all existing rules
+iptables -t filter -L LISTS ALL rules in the filter table (-t filter) and associated chains 
+
+iptables -A INPUT -s0/0 -p http -j ACCEPT
+
+
+firewalld a kinder gentler iptables
+
+ufw more used in debian based systems
+
+firewalld
+
+has gui and command line interface
+interfaces with the D-Bus
+
+/usr/lib/firewalld/zones  default zones dir
+/etc/firewalld/zones   custom zones dir
+
+
+drop all incomming packets allow only outbond
+block blocks incomming with error msgs 
+... ... Lesson 19.6
+
+ufw configuration
+
+/etc/default/ufw
+/etc/ufw  custom rules
+
+ufw status/reload/reset/disable
+ufw allow <identifier>
+ufw deny <identifier>
+ufw reject <identifier>
+
+IP FORWARDING
+
+TO allow linux to forwars packets from one interface out through another interface
+
+Allowing Linux to perform network  address translation or masquarading 
+
+destination NAT (DNAT)
+used for servers behind a firewall that still need external access
+DNAT rules live in the PREROUTING filter point/chain
+
+SOURCE NAT/SNAT
+to send all internet network traffic through a sungle external IP
+static internal addresses naooed to a single machine with SNAT rules live in the POSTROUTING filter point/chain
+
+enabling IP forwarding 
+IPv4
+echo1 > /proc/sys/net/ipv4/ip_forward
+sysctl -w net.ipv4.conf.all.forwarding=1
+
+IPv6
+echo1 > /proc/sys/net/ipv6/ip_forward
+sysctl -w net.ipv6.conf.all.forwarding=1
+
+
+DenyHosts !!!!!
+
+DenyHosts protects against brute force attacks on OpenSSH
+
+its a python script 
+
+/etc/denyhosts.conf
+
+it monitors sshd logs
+/var/log/secure
+/var/log/auth.log
+
+Fail2ban
+
+clockes ip addressed od attackers
+similar to denyhost
+/var/log/auth.log
+/var/log/secure
+/var/log/pwdfail
+
+default config file 
+/etc/fail2ban/jail.conf
+
+if someone fails to log 5 times service is blocked for 120sec
+
+sudo apt install fail2ban
+
+also some strict configs are if u fail 1 time you coluld get a ban for one week :D
+
+
+
+DYNAMIC RULE SET : IPSET
+
+ipset -N <ipset name> <storage type><set type>
+
+ipset add BadIPs 10.10.101.5
+ipset -A BadIPs 10.10.101.0/24
+ipset del <ip name><address or range>
+
+Common Application Port COnfigurations
+
+/etc/services
+holds standard application services
+
+ports 1-1023 privileged ports
+
+
+20. BACKUP RESTORE and COMPRESSION
+
+tar
+cpio
+dd
+
+
+tar tape archiver
+
+tar -C to create an archive
+tar -X to extract
+tar -V verbose output
+tar-f to specify a file to operate on 
+tar -z use gzip conpression
+
+tar -cvf creates a file  <destination file><dir_to_archive>
+tar -czvf <dest_file><dir_to_compress> create a file and compres it with gzip
+
+to extract a file
+
+tar -xvf <filee name to extract>.tar  extract with verbose output
+tar -xzvf <filenametoextract>.tgz  same but for a gzip copressed file
+
+
+cpio utility can also make archives files 
+
+cpio 
+-o to create a file 
+-i to extract a file 
+-v verbose output
+
+ls /dir1.*.txt | cpio -ov >dir1txtFiles.cpio to create a cpio archive
+cpio -iv <dirtxtFiles.cpio> extract the archive
+
+dd is a utility for creating backups , ISO files and formatting disks !!!!!!
+
+dd
+if (input file)
+of (output file)
+count (number of iterations)
+bs (optional block size)
+
+dd if=/dev/zero of=/dev/sdb1 this copies all zeroes from the source  into the first partition on /dev/sdb or sdb1
+
+dd- data descriptiopn utility or DISK DESTROYER™
+
+Comression utilities
+
+gzip is abloe to achive 60-70% compression rate 
+gzip file1 -file1 becomes file1.gz
+gunzip file1.gz  -uncompress
+
+tar command uses -z to gzip
+
+bzip has as higher compression that gzip but takes longer to compress
+
+bzip file1 
+bunzip2 file1.bz2 - decompress
+
+tar uses -j for bzip2
+
+xz has higher compression than both gzip and bzip2
+
+xz file1
+unxz file1.xz
+
+
+tar uses -J for xz
+
+zip utility is different can operate on multiple files 
+
+zip to compress
+unzip to decompress
+
+tar is not needed here
+
+BACKUP TYPES
+
+
+SYSTEM IMAGE - aka clone exact copy of the OS inbcluding binaries and config files 
+
+FULL BACKUP  a copy of all the data on the system
+
+INCREMENTAL BACKUP -only copies the date that has been modified since the last backup operation of any type
+
+DIFFERENTIAL BACKUP - copies the data that has been modified since the last full backup 
+
+SNAPSHOT BACKUP - read only copy made to backup media any new changes create pointers to the original data 
+
+
+
+option full backup on sunday
+taka incremental baackup monday-saturday
+
+more backup needed for restore but incremental backups require less space
+
+
+TRANSFER UTILITIES
+
+Data transfer utilis are important when storing data on another system or off site
+
+sftp
+scp
+rsync
+
+
+sftp & scp are provieded by secure shell
+
+rsync is a remote sync 
+especially helpfull copying large number of files 
+
+-a archive mode 
+-z user compression during file transfer
+--dry-run or -n tests a data transfer as a trial run with no changes made
+
+
+
+INTERGRITY CHECKS WITH Hashing
+
+ANY TIME WE TRANSFER DATA there is a possibility it can be corrupted
+a hasing algorithm offers one way encription aotputting a character string like a file serial number
+
+
+two hashing algorithms
+MD5
+SHA
+
+md5sum <filename> 
+sha224sum
+sha256sum
+sha384sum
+sha512sum <filename>
+
+the cryptography algorithm is the number
+
+
+24. TROUBLESHOOTING APPLICATIONS & HARDWARE
+
+missing devies?
+lspci -M a scan of all devices
+
+something is not configured correct in the dev partition
+
+a missing volume issue can occur when a disk in a logical volume group fails or its removed
+
+if pvscan returns condnt find device you hve missing volume 
+
+1. replace the failed volume : pvcreate
+2. restore volume group metadata : vgcfgrestore
+3.recover the group: vgscan
+4. activate the group: vgchange
+
+
+MISSING MOUNTPOINT
+
+recreate the mountpoin with mkdir
+
+PERFORMANCE ISSUES
+
+ioping<dir>,iostat -dh - I/O latency for directory
+
+sar -b, sar -d - overwall 1/0 activity
+
+we can use dd command to generate a large file and see how long it takes to complete
+dd if=/dev/zero of=/var/test bs=1G count=1 oflag=direct
+
+the hdparm command can be used to determinate a drive;s write speeds
+hdparm -t <disk_device>
+
+
+STORAGE ADAPTER TROUBLESHOOTING
+
+missing drivers/out of date
+failed hardware
+
+udevadm info -an /dev/sda | grep 
+
+
+STIRAGE INTEGRITY
+
+bad blocks
+mdadm
+smartctl -a <device>
+badblocks
+
+FIREWALL TROUBLESHOOTING
+
+sudo firewall-cmd--list-all
+sudo iptables -L
+sudo ufw status
+
+
+grep "433/" /etc/services
+you can ensure this port is open for both tcp and udp
+
+PERMISSION TROUBLESHOOTING !!!!!
+
+Ownership
+Group membership 
+
+ls -l file
+
+chown change owner
+
+we can modify executable permissions 
+using the chmod change mode command
+
+chmod
+
+if the default ACL is set incorrectly
+subdirectories and files in the dir we have the same incorrect permissions. this can be corrected using the setfacl
+
+setfacl
+getfacl
+
+
+DEPENDENCY ISSUES 
+
+if you have an instablity after a patch see what have changed
+
+/var/log/apt/hystory.log
+
+apt clean 
+yum clean all
+
+dprg distros edit
+/etc/apt/sources.list
+and add a new nero
+
+GCC GNU compiler collection 
+
+GCC uses the C library and may not be combitable with the ISO standatd
+
+if the application or command is not in the PATH the app wont run 
+
+/etc/profil.d  the path for all users
+~/.profile or ~/.bash_profile for individual user
+
+
+TRUBLESHOOTING HARDWARE
+
+video
+/var/log/Xorg*.log
+journalctl
+
+communication ports
+
+/dev/tty#
+/proc/ioports
+
+usb
+
+lsmod usb
+modprobe 
+lsusb -v
+
+printers
+
+/vat/log/cups/error_log
+/etc/cups/priners.conf
+
+Keyboard mapping
+
+localctl disply the corrent keymappings
+
+lacalectl list-keyboards -whow vaialable keymappings 
+
+HARDWARE TROUBLESHOPOTING COMMANDS
+
+dmidecode
+lshw -class option
+
+BASH SCRIPTING
+
+local variables available during the coding 
+global variables 
+
+to make them global we can edin the bashrc
+~/.bashrc
+evn - view persistent enviormentals
+viewenv
+
+~/.profile edit
+add
+export PATH=$PATH:/home/raziel
+
+generaly a script should be merked executable 
+chmod u+x gives user execute permissions   !!
+
+All linux scripts must start with absolute path to the command line interpreter used to execute the script
+for bash this is /bin/bash
+
+The first line of a script always starts with #! followed by the absolute path
+therefore the first line of ANY BASH script always starts with
+#!/bin/bash
+
+considered a best practice to gice your scripts an extension
+script.sh -> identifies the file as a BOURNE (SH) or Bourne-Again shell BASH script
+script.py for a python script
+script.pl for a perl script
+
+
+COmmenting and escape characters
+
+- to explain purpose of the script 
+-detail ownership
+-note changes 
+
+echo "Hello world" # this line is created for no reason
+
+
+Redirection and piping
+
+stdout and stderr
+
+
+> to redurect output to a file
+>> to append redirected output into a file 
+
+stderr
+2> to redirect errors to a file
+2>> to append redirected errors redirected to a file 
+
+stdout and stderr  can be combined with
+&>
+
+standart input is known as stdin
+0 is used as a descriptor
+<
+<<
+
+stdin<
+
+FILE GLOBBING & SHELL EXPAnSION
+
+A glob also known as a wildcard operator
+is a metacharacter used to match some number of files 
+based on a pattern
+
+The shell is responsible for expanding the glob and listing the matches it finds
+
+* - matches zero or more characters
+? - matches any single character
+[] - matches any single character within the []
+
+We can print the variable stored with the $ metacharacter
+
+You can nuse variable expansion metacharacters ${} to return a default value to tell you nothing is set:
+
+ESCAPING CHARACTERS
+
+If we have to use a special character in a scrpt as a plain character 
+we have to "escape" the character's speciual meaning, thereby disabling it
+
+Escape characters are also used when you are doing character insertions in echo or awk
+
+there are four types of escape sequences
+commonly used in echo, printf, and awk
+
+\n insert a new like and return cursor at the beginning of the line
+\f insert from feed advaning to next page
+\r return cursor to the beginning of the line 
+\t insert a tab
+
+double quotes " " siable the special meaning for 
+redirection characters <, >. |
+File globbing characters - *,?,[,]
+
+Single quotes '' disable all metacharacters including
+
+redirection and globbing
+command substitution `,$()
+Variable expansion/substitution: $
+
+We can also place a backslash character \ before any single metacharacter to escape it/make it plain character
+
+Command Line Argumets and Positional Parameters
+
+A key feature of scripting and programming is the ability to pass data into a script during runtime
+One way we can do this is to use command line arguments which are data provided from the command line 
+when you run a script
+
+COmmand line arguments are provided after the command and are separated by a space
+command>first argument> <second argument> ...
+
+We can retrieve the values of command line arguments by using special variables known as positinal
+parameters in BASH
+
+For exeample the first command line argument is stored in the variable $1
+the second is stored in $2 and so on 
+
+
+EXIT CODES
+When any command ands it returns an exit status to the shel or script where it was executed
+That exit status determines if the command completed successfully or not 
+The exit status value gets stored in the special variable $?
+
+If the value of $? is number zero 0 it means that the previous command was successful;
+if $? is any number 1 or greater the previous command has failed
+
+The exit status can be changed inside of a script by using the exit command
+This is generally done when you want to provide a numerical identified for different results in your
+code and perform another action upon them
+you can tell a command to exit and provide code
+exit 42
+echo $?
+42
+
+CONDITION TESTS
+
+BASH uses operations to evaluate a condition
+
+an expression in BASH uses these operators to determine is the condition is true of false
+
+There are a number of different operator types that can be used in expression to test if the condition is true or false
+
+string operators str1 = str2 , str1>str2, str1<str2, -n str1 - is that string greater than 0, -z str1 doese str1 have a lenght of 0
+relationship operators   -eq equal to, -ne NOT equal to, -gt greater than, -lt less than, -ge greater than or equal to -le less than or equal to
+arithmetic operations + add - subtract  * multiply / divide
+boolean operators  join expressions together- -a boolean AND operator -o Boolean OR operator, ! Boolean NOT operator
+file operators -e file_path - doese the file exist? -s is the size of the file greater than zero? -f is the file a text file? 
+-d is the file a directory? -x doese file have execute permissions for the user?
+
+
+CONDITIONAL STATEMENTS
+
+Conditional statements allow you to test for specific conditions
+does the file exist?
+did the user enter the correct input or abny imput att all?
+the result of a mathematical expression
+
+There are two types of conditional stanemtnts used in BASH
+if statement
+case statement
+
+
+LOOPING IN BASH
+
+IN BASH there are 2 loop types
+The for loop
+and the while loop
+
+The for loop iterates through every single element in a list or series, for example files in a dir or lines in a text document
+
+the general syntax used is:
+for item in series; do
+commands
+done
+
+
+the while loop
+while (command); do
+command
+done
+
+VERSION CONTROL WITH GIT
+
+GIT is a distributed version control system DVCS
+that is designed to tack and handle code changes and provide centalized code base storage
+
+Git was created by Linus Torvalds, the same person who created the Linux Project in 2005
+
+apt get install git
+
+git init
+
+BASIC GIT COMMANDS
+
+git clone
+git add
+git commit
+git push
+git pull
+
+ADVANCED GIT COMMANDS
+Git branch - get the branches
+git branch dev
+git status
+git branch
+git merge 
+git log
+
+27. ORCHESTRATION PROCESSES AND CONCEPTS
+
+Orchestration components include
+monitoring
+process and attributed
+Inventory
+
+Orchestration monitoring tools help track system health
+Orchestration procedure is a set of steps to complete an action
+
+Its critically important that orchestration tasks have an accurate view of the enviornment
+this is known as keeping inventory
+
+Infrastructure as a CODE
+
+Examples of cofiguration management tools
+Ansible
+Chef
+Puppet
+
+Build automation tools
+Ant
+Maven
+Gradle 
+Rake
+Cake
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
